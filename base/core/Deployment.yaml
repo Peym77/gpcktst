@@ -1,0 +1,26 @@
+kind: Deployment 
+apiVersion: apps/v1
+metadata:
+  name: kraftnetes-core
+  namespace: kraftnetes
+  labels:
+    app: kraftnetes-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kraftnetes-core
+  template:
+    metadata:
+      labels:
+        app: kraftnetes-core
+    spec:
+      containers:
+      - name: kraftnetes-core
+        image: kraftnetes/core
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env: []
+  
+

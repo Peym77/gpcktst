@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: engine-ingress
+  namespace: kraftnetes
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /engine(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kraftnetes-internal-engine-service
+            port:
+              number: 8080

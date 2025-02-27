@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kraftnetes-engine
+  namespace: kraftnetes
+  labels:
+    app: kraftnetes-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kraftnetes-engine
+  template:
+    metadata:
+      labels:
+        app: kraftnetes-engine
+    spec:
+      serviceAccountName: kraftnetes-engine-service-account
+      containers:
+      - name: kraftnetes-engine
+        image: kraftnetes/engine
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env: []

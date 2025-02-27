@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kraftnetes-engine
+  namespace: kraftnetes
+spec:
+  template:
+    spec:
+      containers:
+      - name: kraftnetes-engine
+        env:
+        - name: CORE_SERVICE_URL
+          value: http://kraftnetes-internal-core-service:8080
+        - name: GAME_SERVER_BASE_URL
+          value: "http://host.docker.internal:"

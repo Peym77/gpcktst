@@ -1,0 +1,6 @@
+resources:
+- Deployment.yaml
+- Service.yaml
+#- Nodeport.yaml
+- ServiceAccount.yaml
+- Ingress.yaml

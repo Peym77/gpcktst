@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kraftnetes-internal-core-service
+  namespace: kraftnetes
+spec:
+  selector:
+    app: kraftnetes-core
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

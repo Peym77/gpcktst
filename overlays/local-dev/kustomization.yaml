@@ -1,0 +1,8 @@
+resources: 
+- ./../../base
+
+patchesStrategicMerge:
+- ./env/controller-router.yaml
+- ./env/core.yaml
+- ./env/engine.yaml
+- ./env/panel.yaml

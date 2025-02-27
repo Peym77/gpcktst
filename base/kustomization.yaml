@@ -1,0 +1,6 @@
+resources:
+- core/
+- engine/
+- panel/
+- controller-router/
+- Namespace.yaml

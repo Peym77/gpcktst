@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kraftnetes-controller-router-nodeport
+  namespace: kraftnetes
+spec:
+  selector:
+    app: kraftnetes-controller-router
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30002
+  type: NodePort

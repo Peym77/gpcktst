@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kraftnetes-controller-router
+  namespace: kraftnetes
+spec:
+  template:
+    spec:
+      containers:
+      - name: kraftnetes-controller-router
+        env:
+        - name: CORE_SERVICE_URL
+          value: http://kraftnetes-internal-core-service:8080

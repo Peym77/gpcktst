@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kraftnetes-panel
+  namespace: kraftnetes
+spec:
+  template:
+    spec:
+      containers:
+      - name: kraftnetes-panel
+        env:
+        - name: CORE_URL
+          value: http://localhost:30001/core
+        - name: REACT_APP_ENGINE_URL
+          value: http://localhost:30001/engine

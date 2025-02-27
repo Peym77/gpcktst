@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kraftnetes-core
+  namespace: kraftnetes
+spec:
+  template:
+    spec:
+      containers:
+      - name: kraftnetes-core
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://host.docker.internal:5432/coredb
+        - name: SPRING_DATASOURCE_USERNAME
+          value: test
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: test
+        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+          value: INFO
+        - name: CONTROL_URL_BASE
+          value: "http://localhost:30001/controller/server"

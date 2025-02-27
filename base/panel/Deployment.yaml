@@ -1,0 +1,24 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kraftnetes-panel
+  namespace: kraftnetes
+  labels:
+    app: kraftnetes-panel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kraftnetes-panel
+  template:
+    metadata:
+      labels:
+        app: kraftnetes-panel
+    spec:
+      containers:
+      - name: kraftnetes-panel
+        image: kraftnetes/panel
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env: []
