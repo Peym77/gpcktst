@@ -1,0 +1,67 @@
+name: GitOps CI/CD Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-kustomize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Kustomize
+        run: |
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/latest/download/kustomize-linux-amd64 -o /usr/local/bin/kustomize
+          chmod +x /usr/local/bin/kustomize
+          kustomize version
+
+      - name: Validate Kustomizations
+        run: |
+          find . -name 'kustomization.yaml' | while read -r file; do
+            echo "Validating $file"
+            dir=$(dirname "$file")
+            kustomize build --validate "$dir" >/dev/null || {
+              echo "Validation failed in $dir"; exit 1;
+            }
+          done
+
+  kubeconform-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Kustomize and kubeconform
+        run: |
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/latest/download/kustomize-linux-amd64 -o /usr/local/bin/kustomize
+          chmod +x /usr/local/bin/kustomize
+          curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64 -o /usr/local/bin/kubeconform
+          chmod +x /usr/local/bin/kubeconform
+
+      - name: Run kubeconform
+        run: |
+          find . -name 'kustomization.yaml' | while read -r file; do
+            echo "Testing $file"
+            dir=$(dirname "$file")
+            kustomize build "$dir" | kubeconform -strict -summary || {
+              echo "Kubeconform validation failed in $dir"; exit 1;
+            }
+          done
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install kube-linter
+        run: |
+          curl -sL https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux -o /usr/local/bin/kube-linter
+          chmod +x /usr/local/bin/kube-linter
+
+      - name: Run kube-linter
+        run: kube-linter lint .
